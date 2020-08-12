@@ -1,5 +1,7 @@
 package de.bernd.quizapp;
 
+import android.content.Intent;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -19,7 +21,7 @@ public class QuestionController {
         return instance;
     }
 
-    public QuestionModel[] getQuestions(int amount) {
+    public QuestionModel[] getQuestions(final int amount, final MenuActivity activity) {
         Gson gson = new Gson();
         IQuestions questionsService = Globals.getInstance().getRetrofit().create(IQuestions.class);
 
@@ -34,6 +36,9 @@ public class QuestionController {
                         QuestionModel question = new QuestionModel(jObject.getAsJsonObject().get("id").getAsInt(), jObject.getAsJsonObject().get("question").getAsString(), jObject.getAsJsonObject().get("rightAnswer").getAsString(), jObject.getAsJsonObject().get("falseAnswer1").getAsString(), jObject.getAsJsonObject().get("falseAnswer2").getAsString());
                         questions[i] = question;
                     }
+
+                    Intent gotToQuiz = new Intent(activity, QuizActivity.class);
+                    activity.startActivity(gotToQuiz.putExtra("index", 0));
 
                     Globals.getInstance().setQuestions(questions);
 

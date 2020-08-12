@@ -16,8 +16,6 @@ public class Globals {
     private int score;
     private String nickName;
     private String password;
-    private boolean onCall;
-    // public static final String BASE_URL = "http://192.168.178.29:1337";
     private Retrofit retrofit;
 
     private Globals() {
@@ -30,7 +28,6 @@ public class Globals {
         this.retrofit = new Retrofit.Builder().baseUrl("http://192.168.178.29:1337/").addConverterFactory(GsonConverterFactory.create(gson)).build();
         this.score = 0;
         this.user = new UserModel();
-        this.onCall = false;
     }
 
     public static Globals getInstance() {
@@ -93,11 +90,4 @@ public class Globals {
         this.leaderBoard = leaderBoard;
     }
 
-    public boolean isOnCall() {
-        return onCall;
-    }
-
-    public void setOnCall(boolean onCall) {
-        this.onCall = onCall;
-    }
 }

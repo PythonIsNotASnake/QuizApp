@@ -1,5 +1,9 @@
 package de.bernd.quizapp;
 
+import android.content.Intent;
+import android.view.View;
+import android.widget.TextView;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -9,32 +13,18 @@ import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserController {
     private static final UserController instance = new UserController();
 
-    static final String BASE_URL = "http://192.168.178.29:1337";
-    // private Retrofit retrofit;
-
     private UserController() {
-        //OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-        OkHttpClient okHttpClient = new OkHttpClient();
-        // this.retrofit = new Retrofit.Builder().baseUrl("http://192.168.178.29:1337/").addConverterFactory(GsonConverterFactory.create(gson)).build();
-        //addConverterFactory(ScalarsConverterFactory.create())
-        // GsonConverterFactory.create(gson)
     }
 
     public static UserController getInstance() {
         return instance;
     }
 
-    public boolean registerUser(String nickName, String password) {
-        boolean loggedIn = false;
+    public void registerUser(final String nickName, final String password, final RegistrationActivity2 activity, final View v) {
         UserModel user = new UserModel(nickName, password);
         Gson gson = new Gson();
         JsonElement userJson = gson.fromJson(user.toString(), JsonElement.class);
@@ -43,30 +33,39 @@ public class UserController {
 
         try {
             userService.postRegister(jsonObject).enqueue(new Callback<JsonElement>() {
+
                 @Override
                 public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                     JsonElement element = response.body().getAsJsonObject().get("registered");
-                    Globals.getInstance().getUser().setLoggedIn(element.getAsBoolean());
-                    Globals.getInstance().setOnCall(false);
+                    boolean isLoggedIn = element.getAsBoolean();
+                    if (isLoggedIn) {
+                        Globals.getInstance().getUser().setNickName(nickName);
+                        Globals.getInstance().getUser().setPassword(password);
+                        Intent goToMenu = new Intent(activity, MenuActivity.class);
+                        activity.startActivity(goToMenu);
+                    } else {
+                        activity.getNickNameInput().setError("Benutzername existiert bereits");
+                        activity.getPasswordInput().setError("Benutzername existiert bereits");
+                    }
+                    System.out.println("User registered successfully");
+                    activity.getLoadingProgressBar().setVisibility(v.GONE);
                 }
 
                 @Override
                 public void onFailure(Call<JsonElement> call, Throwable t) {
                     System.out.println(t);
-                    Globals.getInstance().setOnCall(false);
+                    activity.getNickNameInput().setError("Verbindungsfehler");
+                    activity.getPasswordInput().setError("Verbindungsfehler");
+                    activity.getLoadingProgressBar().setVisibility(v.GONE);
                 }
             });
-            loggedIn = Globals.getInstance().getUser().isLoggedIn();
-            return Globals.getInstance().getUser().isLoggedIn();
         } catch (Exception e) {
-            Globals.getInstance().setOnCall(false);
             System.out.println(e);
-            return false;
+            activity.getLoadingProgressBar().setVisibility(v.GONE);
         }
     }
 
-    public boolean loginUser(final String nickName, final String password) {
-        boolean loggedIn = false;
+    public void loginUser(final String nickName, final String password, final LoginActivity2 activity, final View v) {
         UserModel user = new UserModel(nickName, password);
         Gson gson = new Gson();
         JsonElement userJson = gson.fromJson(user.toString(), JsonElement.class);
@@ -78,32 +77,35 @@ public class UserController {
                 @Override
                 public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                     JsonElement element = response.body().getAsJsonObject().get("loggedIn");
-                    Globals.getInstance().getUser().setLoggedIn(element.getAsBoolean());
-                    Globals.getInstance().getUser().setNickName(nickName);
-                    Globals.getInstance().getUser().setPassword(password);
+                    boolean isLoggedIn = element.getAsBoolean();
+                    if (isLoggedIn) {
+                        Globals.getInstance().getUser().setNickName(nickName);
+                        Globals.getInstance().getUser().setPassword(password);
+                        Intent goToMenu = new Intent(activity, MenuActivity.class);
+                        activity.startActivity(goToMenu);
+                    } else {
+                        activity.getNickNameInput().setError("Ungültiger Nutzername");
+                        activity.getPasswordInput().setError("Ungültiges Passwort");
+                    }
                     System.out.println("User logged in successfully");
-                    Globals.getInstance().setOnCall(false);
+                    activity.getLoadingProgressBar().setVisibility(v.GONE);
                 }
 
                 @Override
                 public void onFailure(Call<JsonElement> call, Throwable t) {
-                    Globals.getInstance().getUser().setLoggedIn(false);
+                    activity.getNickNameInput().setError("Verbindungsfehler");
+                    activity.getPasswordInput().setError("Verbindungsfehler");
                     System.out.println(t);
-                    Globals.getInstance().setOnCall(false);
+                    activity.getLoadingProgressBar().setVisibility(v.GONE);
                 }
             });
-            loggedIn = Globals.getInstance().getUser().isLoggedIn();
-            return loggedIn;
         } catch (Exception e) {
-            Globals.getInstance().getUser().setLoggedIn(false);
-            Globals.getInstance().setOnCall(false);
             System.out.println(e);
-            return false;
+            activity.getLoadingProgressBar().setVisibility(v.GONE);
         }
-        //return Globals.getInstance().getUser().isLoggedIn();
     }
 
-    public int getScore(String nickName, String password) {
+    public int getScore(String nickName, String password, final TextView view) {
         UserModel user = new UserModel(nickName, password);
         Gson gson = new Gson();
         JsonElement userJson = gson.fromJson(user.toString(), JsonElement.class);
@@ -116,11 +118,13 @@ public class UserController {
                 public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                     JsonElement element = response.body().getAsJsonObject().get("score");
                     Globals.getInstance().getUser().setScore(element.getAsInt());
+                    view.setText("Willkommen " + Globals.getInstance().getUser().getNickName() + ": " + Globals.getInstance().getUser().getScore() + " Punkte");
                     System.out.println("User score of " + Globals.getInstance().getUser().getScore());
                 }
 
                 @Override
                 public void onFailure(Call<JsonElement> call, Throwable t) {
+                    view.setText("Willkommen");
                     System.out.println(t);
                 }
             });
@@ -158,7 +162,7 @@ public class UserController {
         return Globals.getInstance().getUser().getScore();
     }
 
-    public UserModel[] getLeaderBoard(String nickName, String password) {
+    public UserModel[] getLeaderBoard(String nickName, String password, final LeaderboardActivity activity) {
         UserModel user = new UserModel(nickName, password);
         Gson gson = new Gson();
         JsonElement userJson = gson.fromJson(user.toString(), JsonElement.class);
@@ -171,7 +175,7 @@ public class UserController {
                 public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
                     JsonElement element = response.body().getAsJsonObject().get("leaderBoard");
                     UserModel[] leaderBoard = new UserModel[element.getAsJsonArray().size()];
-                    for(int i=0; i<element.getAsJsonArray().size(); i++) {
+                    for (int i = 0; i < element.getAsJsonArray().size(); i++) {
                         JsonElement jObject = element.getAsJsonArray().get(i);
                         UserModel leaderUser = new UserModel(jObject.getAsJsonObject().get("nickName").getAsString(), jObject.getAsJsonObject().get("score").getAsInt());
                         leaderBoard[i] = leaderUser;
@@ -179,9 +183,12 @@ public class UserController {
 
                     Globals.getInstance().setLeaderBoard(leaderBoard);
 
-                    // Globals.getInstance().getUser().setScore(element.getAsInt());
-                    for(int j = 0; j< Globals.getInstance().getLeaderBoard().length; j++){
-                        System.out.println(Globals.getInstance().getLeaderBoard()[j]);
+                    for (int j = 0; j < Globals.getInstance().getLeaderBoard().length; j++) {
+                        activity.getPlaces().get(j).setText(Globals.getInstance().getLeaderBoard()[j].getNickName() + " " + Globals.getInstance().getLeaderBoard()[j].getScore() + " Punkte");
+                    }
+
+                    for (int x = Globals.getInstance().getLeaderBoard().length; x < activity.getPlaces().size(); x++) {
+                        activity.getPlaces().get(x).setVisibility(View.INVISIBLE);
                     }
                 }
 
@@ -194,75 +201,6 @@ public class UserController {
             System.out.println(e);
         }
         return Globals.getInstance().getLeaderBoard();
-    }
-
-    public void start() {
-
-        UserModel user = new UserModel("Bernd", "abc");
-        Gson gson1 = new Gson();
-        JsonElement jsonElement = gson1.fromJson(user.toString(), JsonElement.class);
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-
-        IUser userService = Globals.getInstance().getRetrofit().create(IUser.class);
-        // Call<ResponseBody> call = userService.putLogin(user);
-        IQuestions questionService = Globals.getInstance().getRetrofit().create(IQuestions.class);
-
-        //Call call = userService.putLogin(RequestBody.create(MediaType.parse("application/json"), jsonObject.toString()));
-        // Call call = userService.putLogin(jsonObject);
-        try {
-            final Call<JsonElement> listCall = questionService.getHello();
-            //final Call<List<QuestionModel>> questionCall = questionService.getQuestions(3);
-            //final List<QuestionModel> list = questionCall.execute().body();
-
-            userService.putLogin(jsonObject).enqueue(new Callback<JsonElement>() {
-                @Override
-                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                    System.out.println(response.body());
-                }
-
-                @Override
-                public void onFailure(Call<JsonElement> call, Throwable t) {
-                    System.out.println("Mega FAIIIIL!!!!! Login");
-                }
-            });
-
-            userService.getLeaderBoard(jsonObject).enqueue(new Callback<JsonElement>() {
-                @Override
-                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                    System.out.println(response.body());
-                }
-
-                @Override
-                public void onFailure(Call<JsonElement> call, Throwable t) {
-                    System.out.println("Mega FAIIIIL!!!!! LeaderBoard");
-                }
-            });
-
-            questionService.getQuestions(2).enqueue(new Callback<JsonElement>() {
-                @Override
-                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                    System.out.println(response.body());
-                    JsonElement jo = response.body().getAsJsonObject().get("questions");
-                    JsonElement ja = jo.getAsJsonArray().get(0);
-                    JsonElement question = ja.getAsJsonObject().get("question");
-                    System.out.println(jo);
-                    System.out.println(ja);
-                    System.out.println(question);
-                }
-
-                @Override
-                public void onFailure(Call<JsonElement> call, Throwable t) {
-                    System.out.println("Mega FAIIIIL!!!!! Questions");
-                }
-            });
-            //listCall.enqueue(this);
-            //System.out.println("Mein Call!!!!!!" + list);
-        } catch (Exception e) {
-            System.out.println("Schwerwiegender Fehler!!!");
-            System.out.println(e);
-        }
-
-
     }
 }
 

@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -13,25 +15,4 @@
         android:layout_height="240dp"
         app:srcCompat="@drawable/quizlogo" />
 
-    <Button
-        android:id="@+id/mainButtonLogin"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Anmelden"
-        android:textColor="@color/lightGray"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:backgroundTint="@color/colorPrimary" />
-
-    <Button
-        android:id="@+id/mainButtonRegistration"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Registrieren"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:backgroundTint="@color/lightGray" />
 </LinearLayout>

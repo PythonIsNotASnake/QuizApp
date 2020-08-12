@@ -10,65 +10,67 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end">
+        android:gravity="end"
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/menuLogoutButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/lightGray"
+            android:text="Abmelden"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/colorPrimary"
-            android:text="Abmelden" />
+            app:backgroundTint="@color/colorPrimaryDark" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
 
         <ImageView
-            android:id="@+id/imageProfile"
+            android:id="@+id/menuImageProfile"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="230dp"
             app:srcCompat="@drawable/blankprofile"
             tools:srcCompact="@drawable/blankprofile" />
 
         <TextView
-            android:id="@+id/textGreeting"
+            android:id="@+id/menuTextGreeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hallo" />
-    </LinearLayout>
+            android:text="Willkommen"
+            android:textSize="30sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_weight="1">
-    <Button
-        android:id="@+id/buttonPlay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/lightGray"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:backgroundTint="@color/colorPrimary"
-        android:text="Spielen" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
 
-    <Button
-        android:id="@+id/buttonLeaderboard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/lightGray"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:backgroundTint="@color/colorPrimary"
-        android:text="Rangliste" />
+        <Button
+            android:id="@+id/menuButtonPlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Spielen"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/colorPrimaryDark" />
+
+        <Button
+            android:id="@+id/menuButtonLeaderboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rangliste"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/colorPrimaryDark" />
     </LinearLayout>
 </LinearLayout>

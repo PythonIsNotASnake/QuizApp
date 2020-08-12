@@ -6,14 +6,12 @@ public class UserModel {
     private String password;
     private int points;
     private int score;
-    private boolean loggedIn;
 
     public UserModel() {
         this.nickName = "";
         this.password = "";
         this.points = 0;
         this.score = 0;
-        this.loggedIn = false;
     }
 
     public UserModel(String nickName, String password) {
@@ -21,7 +19,6 @@ public class UserModel {
         this.password = password;
         this.points = 0;
         this.score = 0;
-        this.loggedIn = false;
     }
 
     public UserModel(String nickName, String password, int score) {
@@ -29,7 +26,6 @@ public class UserModel {
         this.password = password;
         this.points = 0;
         this.score = score;
-        this.loggedIn = false;
     }
 
     public UserModel(String nickName, int score) {
@@ -37,7 +33,6 @@ public class UserModel {
         this.password = "";
         this.points = 0;
         this.score = score;
-        this.loggedIn = false;
     }
 
     public String getNickName() {
@@ -62,14 +57,6 @@ public class UserModel {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
     }
 
     public int getPoints() {

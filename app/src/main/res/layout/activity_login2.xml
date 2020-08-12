@@ -36,14 +36,14 @@
 
     <Button
         android:id="@+id/loginButtonLogin"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.Button"
-        android:textColor="@color/lightGray"
+        android:text="Anmelden"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:backgroundTint="@color/colorPrimary"
-        android:text="Anmelden"/>
+        app:backgroundTint="@color/colorPrimaryDark" />
 
     <ProgressBar
         android:id="@+id/loginLoading"
