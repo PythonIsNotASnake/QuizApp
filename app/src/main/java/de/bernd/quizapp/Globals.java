@@ -13,49 +13,18 @@ public class Globals {
     private UserModel user;
     private QuestionModel[] questions;
     private UserModel[] leaderBoard;
-    private int score;
-    private String nickName;
-    private String password;
     private Retrofit retrofit;
 
     private Globals() {
-        // Gson gson = new GsonBuilder().setLenient().create();
-        // this.retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).build();
-        Gson gson = new GsonBuilder()
+       Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
-        OkHttpClient okHttpClient = new OkHttpClient();
         this.retrofit = new Retrofit.Builder().baseUrl("http://192.168.178.29:1337/").addConverterFactory(GsonConverterFactory.create(gson)).build();
-        this.score = 0;
         this.user = new UserModel();
     }
 
     public static Globals getInstance() {
         return instance;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Retrofit getRetrofit() {

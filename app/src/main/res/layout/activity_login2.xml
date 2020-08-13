@@ -16,15 +16,15 @@
         android:id="@+id/loginUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/prompt_email"
+        android:hint="Nutzername"
         android:inputType="textEmailAddress"
-        android:selectAllOnFocus="true"/>
+        android:selectAllOnFocus="true" />
 
     <EditText
         android:id="@+id/loginPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/prompt_password"
+        android:hint="Passwort"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
