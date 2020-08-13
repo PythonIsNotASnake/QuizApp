@@ -1,6 +1,8 @@
 # QuizApp
  Android App
  
+ Icons in the leaderboard-screen made by Pixel perfect from www.flaticon.com
+ 
  <img src="screenshots/logoscreen.png" alt="drawing" width="24%"/> <img src="screenshots/startscreen.jpg" alt="drawing" width="24%"/> <img src="screenshots/loginscreen.jpg" alt="drawing" width="24%"/> <img src="screenshots/loginscreenerror.jpg" alt="drawing" width="24%"/>
  
  <img src="screenshots/registrationscreen.jpg" alt="drawing" width="24%"/> <img src="screenshots/mainmenuscreen.jpg" alt="drawing" width="24%"/> <img src="screenshots/leaderboardscreen.jpg" alt="drawing" width="24%"/>
