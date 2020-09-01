@@ -24,53 +24,57 @@
             app:backgroundTint="@color/colorPrimaryDark" />
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-
-        <ImageView
-            android:id="@+id/menuImageProfile"
-            android:layout_width="match_parent"
-            android:layout_height="230dp"
-            app:srcCompat="@drawable/blankprofile"
-            tools:srcCompact="@drawable/blankprofile" />
-
-        <TextView
-            android:id="@+id/menuTextGreeting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Willkommen"
-            android:textSize="30sp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-
-        <Button
-            android:id="@+id/menuButtonPlay"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Spielen"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:backgroundTint="@color/colorPrimaryDark" />
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/menuButtonLeaderboard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Rangliste"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:backgroundTint="@color/colorPrimaryDark" />
-    </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/menuImageProfile"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                app:srcCompat="@drawable/blankprofile"
+                tools:srcCompact="@drawable/blankprofile" />
+
+            <TextView
+                android:id="@+id/menuTextGreeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Willkommen"
+                android:textSize="30sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <Button
+                android:id="@+id/menuButtonPlay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Spielen"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/colorPrimaryDark" />
+
+            <Button
+                android:id="@+id/menuButtonLeaderboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rangliste"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/colorPrimaryDark" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

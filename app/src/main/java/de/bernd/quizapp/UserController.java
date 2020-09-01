@@ -2,6 +2,7 @@ package de.bernd.quizapp;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -201,6 +202,35 @@ public class UserController {
             System.out.println(e);
         }
         return Globals.getInstance().getLeaderBoard();
+    }
+
+    public void getClock(RemoteViews views) {
+        final String[] time = {""};
+        IUser userService = Globals.getInstance().getRetrofit().create(IUser.class);
+        final RemoteViews[] remoteViews = new RemoteViews[1];
+        remoteViews[0]=views;
+        try {
+            userService.getClock().enqueue(new Callback<JsonElement>() {
+                @Override
+                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                    JsonElement element = response.body().getAsJsonObject().get("clock");
+                    time[0] = element.getAsString();
+                    System.out.println("Output der Uhrzeit: "+time[0]);
+                    remoteViews[0].setTextViewText(R.id.textTime, element.getAsString());
+                }
+
+                @Override
+                public void onFailure(Call<JsonElement> call, Throwable t) {
+                    time[0] = "Time Failure";
+                    System.out.println(t);
+                }
+            });
+            //remoteViews[0].setTextViewText(R.id.textTime, "Hallo du da");
+            //return time[0];
+        } catch (Exception e) {
+            System.out.println(e);
+            //return "Time Exception";
+        }
     }
 }
 

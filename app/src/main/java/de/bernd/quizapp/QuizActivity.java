@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,9 +24,11 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     private Button answerButton2;
     private Button answerButton3;
     private Button forwardButton;
+    private LinearLayout forwardLayout;
     private int index;
     private List<String> answers;
     private List<Button> answerButtons;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +42,9 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         this.answerButton2 = findViewById(R.id.quizAnswerButton2);
         this.answerButton3 = findViewById(R.id.quizAnswerButton3);
         this.forwardButton = findViewById(R.id.quizForwardButton);
+        this.forwardLayout = findViewById(R.id.quizForwardLayout);
 
-        this.forwardButton.setVisibility(View.INVISIBLE);
+        this.forwardLayout.setVisibility(View.GONE);
 
         answerButton1.setOnClickListener(this);
         answerButton2.setOnClickListener(this);
@@ -61,7 +65,6 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         this.answerButtons.add(this.answerButton1);
         this.answerButtons.add(this.answerButton2);
         this.answerButtons.add(this.answerButton3);
-
 
         this.forwardButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +89,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        if(((Button) v).getText().toString() == Globals.getInstance().getQuestions()[this.index].getRightAnswer()) {
+        if (((Button) v).getText().toString() == Globals.getInstance().getQuestions()[this.index].getRightAnswer()) {
             UserController.getInstance().updateScore(Globals.getInstance().getUser().getNickName(), Globals.getInstance().getUser().getPassword(), 2);
             ((Button) v).setBackgroundColor(getResources().getColor(R.color.rightAnswer));
             ((Button) v).setTextColor(getResources().getColor(R.color.black));
@@ -94,8 +97,8 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             toast.show();
         } else {
             UserController.getInstance().updateScore(Globals.getInstance().getUser().getNickName(), Globals.getInstance().getUser().getPassword(), -1);
-            for(int i=0; i < QuizActivity.this.answerButtons.size();i++) {
-                if(QuizActivity.this.answerButtons.get(i).getText().toString() == Globals.getInstance().getQuestions()[this.index].getRightAnswer()) {
+            for (int i = 0; i < QuizActivity.this.answerButtons.size(); i++) {
+                if (QuizActivity.this.answerButtons.get(i).getText().toString() == Globals.getInstance().getQuestions()[this.index].getRightAnswer()) {
                     QuizActivity.this.answerButtons.get(i).setBackgroundColor(getResources().getColor(R.color.rightAnswer));
                     QuizActivity.this.answerButtons.get(i).setTextColor(getResources().getColor(R.color.black));
                     break;
@@ -106,6 +109,8 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             Toast toast = Toast.makeText(v.getContext(), "-1 Punkt", Toast.LENGTH_SHORT);
             toast.show();
         }
-        this.forwardButton.setVisibility(View.VISIBLE);
+
+        // this.forwardButton.setVisibility(View.VISIBLE);
+        this.forwardLayout.setVisibility(View.VISIBLE);
     }
 }

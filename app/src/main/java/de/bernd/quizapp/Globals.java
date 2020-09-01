@@ -1,5 +1,12 @@
 package de.bernd.quizapp;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
+
+import androidx.core.app.NotificationCompat;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -16,7 +23,7 @@ public class Globals {
     private Retrofit retrofit;
 
     private Globals() {
-       Gson gson = new GsonBuilder()
+        Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
         this.retrofit = new Retrofit.Builder().baseUrl("http://192.168.178.29:1337/").addConverterFactory(GsonConverterFactory.create(gson)).build();
@@ -58,5 +65,4 @@ public class Globals {
     public void setLeaderBoard(UserModel[] leaderBoard) {
         this.leaderBoard = leaderBoard;
     }
-
 }

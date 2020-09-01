@@ -17,7 +17,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        greetings = findViewById(R.id.menuTextGreeting);
+        this.greetings = findViewById(R.id.menuTextGreeting);
 
         UserController.getInstance().getScore(Globals.getInstance().getUser().getNickName(), Globals.getInstance().getUser().getPassword(), greetings);
 
